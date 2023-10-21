@@ -27,7 +27,7 @@ export default function explore() {
   ];
   return (
     <div className="flex min-h-screen w-screen flex-row ">
-      <div className="flex min-h-screen w-1/5 flex-col gap-2  border-r-2 border-neutral px-7 pt-20 ">
+      <div className="flex min-h-screen w-1/5 flex-col gap-2 px-7 pt-20">
         <div className="text-xl">Start date:</div>
         <div className="rounded-lg border-2 border-neutral shadow-md">
           <Datepicker

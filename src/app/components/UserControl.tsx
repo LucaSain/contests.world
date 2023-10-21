@@ -6,21 +6,27 @@ export default async function UserControl() {
   return (
     <>
       {session !== null && session.user !== null ? (
-        <div className="dropdown dropdown-end">
+        <div className="dropdown-end dropdown">
           <label tabIndex={0} className="avatar btn btn-circle btn-ghost">
-            <div className="w-10 rounded-full">
+            <div className="w-15 rounded-full border-2 border-primary shadow-xl">
               <img src={session.user?.image || "/next.svg"} />
             </div>
           </label>
           <ul
             tabIndex={0}
-            className="menu dropdown-content rounded-box menu-sm z-[1] mt-3 w-52 bg-base-100 p-2 shadow"
+            className="menu dropdown-content rounded-box menu-sm z-[1] mt-3 w-52 border-2 border-primary bg-base-100 p-2"
           >
             <li>
-              <a>Profile</a>
+              <a className="justify-between">
+                Profile
+                <div className="badge badge-primary badge-sm">Organisator</div>
+              </a>
             </li>
             <li>
               <Link href="/dashboard">Dashboard</Link>
+            </li>
+            <li>
+              <Link href="/create ">Create</Link>
             </li>
             <li>
               <a href="/api/auth/signout">Logout</a>

@@ -19,18 +19,28 @@ export default function Create() {
 
   const forms = [
     {
-      name: "A fantastic name",
+      name: "A fantastic name and logo",
       form: (
-        <input
-          onChange={(e) => {
-            let tmpContest = { ...contest };
-            tmpContest.name = e.target.value;
-            setContest(tmpContest);
-          }}
-          value={contest?.name}
-          type="text"
-          className="input w-full rounded-none border-0 border-b-2 border-neutral text-lg outline-none"
-        />
+        <>
+          <label htmlFor="fileInput">
+            <div className="avatar">
+              <div className="h-32 w-32 rounded-full border-2 transition-all hover:translate-y-[-1px] hover:shadow-lg">
+                <img src="/vercel.svg" />
+              </div>
+            </div>
+          </label>
+          <input id="fileInput" type="file" hidden={true} />
+          <input
+            onChange={(e) => {
+              let tmpContest = { ...contest };
+              tmpContest.name = e.target.value;
+              setContest(tmpContest);
+            }}
+            value={contest?.name}
+            type="text"
+            className="input w-full rounded-none border-0 border-b-2 border-neutral text-lg outline-none"
+          />
+        </>
       ),
     },
     {
@@ -130,7 +140,7 @@ export default function Create() {
           </div>
           <div className="form-control w-full max-w-xs">
             <label className="label">
-              <span className="label-text"></span>
+              <span className="label-text">LinkedIn</span>
             </label>
             <input
               type="text"
