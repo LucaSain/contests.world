@@ -1,4 +1,8 @@
+import UserControl from "./UserControl";
+
+
 export default function Navbar() {
+
     return (
         <div className="absolute navbar w-full z-[999] bg-base-100 border-b-2 border-neutral rounded-none ">
             <div className="navbar-start">
@@ -10,7 +14,7 @@ export default function Navbar() {
                     explore
                 </div></div>
             <div className="navbar-end">
-                <div className="btn btn-neutral">Login</div>
+                <UserControl />
             </div>
         </div>
     )
