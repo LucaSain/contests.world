@@ -2,7 +2,7 @@
 import { DateType, DateValueType } from "react-tailwindcss-datepicker";
 import Datepicker from "react-tailwindcss-datepicker";
 import { useState } from "react"
-import { Contest } from "../types";
+import { Contest } from "../types/types";
 
 
 
