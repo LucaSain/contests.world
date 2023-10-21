@@ -2,8 +2,8 @@ import Navbar from "./components/Navbar";
 
 export default function Home() {
   return (
-    <div className="h-full flex flex-col justify-center items-center text-9xl min-h-screen font-semibold bg-gradient-to-tr">
+    <div className="flex h-full min-h-screen flex-col items-center justify-center bg-gradient-to-tr text-9xl font-semibold">
       Contests. Your way.
     </div>
-  )
+  );
 }
