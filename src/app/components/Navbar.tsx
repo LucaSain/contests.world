@@ -3,16 +3,20 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <div className="navbar absolute z-[999] w-full rounded-none border-neutral bg-base-100 ">
+    <div className="navbar  fixed z-[999] w-full rounded-none border-neutral bg-base-100 sm:absolute ">
       <div className="navbar-start">
-        <Link href="/" className="btn btn-ghost text-xl normal-case">
-          Contests / World
+        <Link
+          href="/"
+          className="btn btn-ghost btn-sm text-lg normal-case sm:btn-md sm:text-xl"
+        >
+          <div className="hidden sm:block">Contests / World</div>
+          <div className="sm:hidden">C/ World</div>
         </Link>
       </div>
       <div className="navbar-center">
         <Link
           href="/explore"
-          className="btn border-2 border-neutral bg-transparent shadow-md"
+          className="btn btn-sm border-2 border-neutral bg-transparent shadow-md sm:btn-md"
         >
           explore
         </Link>

@@ -6,9 +6,9 @@ export default async function UserControl() {
   return (
     <>
       {session !== null && session.user !== null ? (
-        <div className="dropdown-end dropdown">
+        <div className="dropdown dropdown-end">
           <label tabIndex={0} className="avatar btn btn-circle btn-ghost">
-            <div className="w-15 rounded-full border-2 border-primary shadow-xl">
+            <div className="sm:w-15 w-10 rounded-full border-2 border-primary shadow-xl">
               <img src={session.user?.image || "/next.svg"} />
             </div>
           </label>

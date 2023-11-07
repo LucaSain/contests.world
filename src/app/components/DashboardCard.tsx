@@ -1,6 +1,6 @@
 export default function DashboardCard() {
   return (
-    <div className="flex min-h-[200px] w-full flex-col rounded-lg border-2 border-neutral p-4 shadow-lg transition-transform hover:translate-y-[-1px]">
+    <div className="relative flex w-full flex-col rounded-lg border-2 border-neutral p-4 shadow-lg">
       <div className="text text-4xl">Contestname</div>
       <div className="text-xl">Organisator name</div>
       <div className="badge badge-neutral">Main badge</div>
@@ -13,6 +13,11 @@ export default function DashboardCard() {
           Info
         </div>
       </div>
+
+      <img
+        src="/images.jpeg"
+        className=" mask mask-circle absolute right-[-6px] top-2 h-1/2 w-1/3 rounded-full object-cover"
+      />
     </div>
   );
 }

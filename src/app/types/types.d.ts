@@ -16,11 +16,11 @@ export interface Contest {
   endDate?: DateType;
   description?: string;
   location?: string;
-  links?: {
-    Instagram: string;
-    Facebook: string;
-    LinkedIn: string;
-    GitHub: string;
+  links: {
+    Instagram?: string;
+    Facebook?: string;
+    LinkedIn?: string;
+    GitHub?: string;
   };
   bannerURL?: string;
   regulationsURL?: string;
