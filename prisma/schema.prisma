@@ -41,6 +41,10 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  oobeCompleted Int       @default(0)
+  verifiedH     Int       @default(0)
+  verifiedU     Int       @default(0)
+  type          Int       @default(0)
   accounts      Account[]
   sessions      Session[]
 }
@@ -51,4 +55,30 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Contest {
+  id                    Int       @id @default(autoincrement())
+  name                  String?
+  author                String
+  hostedOnPlatoform     Boolean?
+  restrictUsersOnRegion String?
+  restrictUsersOnGroup  String?
+  restrictUsersSchool   Boolean?
+  restrictUsersStudents Boolean?
+  restrictUsersMinAge   Int?
+  restrictUsersMaxAge   Int?
+  restrictUsersLimit    Int?
+  hasAward              Boolean? //
+  startDate             DateTime?
+  endDate               DateTime?
+  description           String?
+  location              String?
+  bannerURL             String?
+  regulationsURL        String?
+  regulationsPDF        Boolean?
+  Instagram             String?
+  Facebook              String?
+  LinkedIn              String?
+  GitHub                String?
 }

@@ -1,5 +1,5 @@
 import Drawer from "../components/Drawer";
 
-export default function Explore(){
-  return <Drawer />
+export default function Explore() {
+  return <Drawer />;
 }

@@ -2,49 +2,28 @@
 
 import { useEffect, useState } from "react";
 import { Contest } from "../types/types";
-
+import { createContest } from "../actions";
+import { experimental_useFormStatus as useFormStatus } from "react-dom";
 export default function Create() {
-  const [contest, setContest] = useState<Contest>({ links: {} });
   const [currentStep, setCurrentStep] = useState<number>(0);
-  const [startDate, setStardDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
-
-  const handleStartDate = (startDate: Date) => {
-    setStardDate(startDate);
-    let tmp = { ...contest };
-    tmp.startDate = startDate;
-    setContest(tmp);
-  };
-
-  const handleEndDate = (endDate: Date) => {
-    setEndDate(endDate);
-    let tmp = { ...contest };
-    tmp.endDate = endDate;
-    setContest(tmp);
-  };
 
   const forms = [
     {
       name: "A fantastic name and logo",
       form: (
         <>
-          <label htmlFor="fileInput">
+          <label htmlFor="logo">
             <div className="avatar">
               <div className="h-20 w-20 rounded-full border-2 transition-all hover:translate-y-[-1px] hover:shadow-lg sm:h-32 sm:w-32">
                 <img src="/vercel.svg" />
               </div>
             </div>
           </label>
-          <input id="fileInput" type="file" hidden={true} />
+          <input id="logo" type="file" hidden={true} />
 
           <input
-            onChange={(e) => {
-              let tmpContest = { ...contest };
-              tmpContest.name = e.target.value;
-              setContest(tmpContest);
-            }}
-            value={contest?.name}
             type="text"
+            id="name"
             className="input w-full rounded-none border-0 border-b-2 border-neutral text-lg focus:outline-none"
           />
         </>
@@ -54,9 +33,30 @@ export default function Create() {
       name: "Date and location",
       form: (
         <>
+          <dialog
+            id="location_modal"
+            className="modal modal-bottom sm:modal-middle"
+          >
+            <div className="modal-box">
+              <input
+                className="input input-bordered mt-2 w-full"
+                type="text"
+                placeholder="Search for a country"
+              />
+            </div>
+            <div
+              className="modal-backdrop"
+              onClick={() => {
+                if (document)
+                  (
+                    document.getElementById("location_modal") as HTMLFormElement
+                  ).close();
+              }}
+            ></div>
+          </dialog>
           <div className="flex w-full flex-row items-center justify-between ">
             <div className="text-xl font-semibold sm:text-4xl">Location</div>
-            <button
+            <a
               className="shadown-sm btn btn-neutral btn-sm "
               onClick={() => {
                 if (document)
@@ -66,21 +66,14 @@ export default function Create() {
               }}
             >
               select
-            </button>
+            </a>
           </div>
           <div className="flex w-full flex-row items-center justify-between ">
             <div className="text-xl font-semibold sm:text-4xl">Start date</div>
-            {/* <div className="w-1/2 rounded-lg border-2 border-neutral shadow-md sm:w-1/3">
-              <Datepicker
-                value={startDate}
-                asSingle={true}
-                useRange={false}
-                onChange={handleStartDate}
-              />
-              
-            </div> */}
+
             <input
               type="date"
+              id="startDate"
               className="input input-bordered input-sm w-1/2 border-2 border-neutral shadow-md sm:w-1/3"
             />
           </div>
@@ -88,6 +81,7 @@ export default function Create() {
             <div className="text-xl font-semibold sm:text-4xl">End date</div>
             <input
               type="date"
+              id="endDate"
               className="input input-bordered input-sm w-1/2 border-2 border-neutral shadow-md sm:w-1/3"
             />
           </div>
@@ -104,6 +98,7 @@ export default function Create() {
             </label>
             <input
               type="file"
+              id="rulesLink"
               className="file-input file-input-bordered w-full max-w-xs shadow-lg"
             />
           </div>{" "}
@@ -114,13 +109,8 @@ export default function Create() {
                   Only accept users form highschool
                 </span>
                 <input
-                  onChange={(e) => {
-                    let tmp = { ...contest };
-                    tmp.restrictUsersSchool = e.target.checked;
-                    setContest(tmp);
-                  }}
+                  id="restrictHighSchool"
                   type="checkbox"
-                  checked={contest?.restrictUsersSchool}
                   className="checkbox"
                 />
               </label>
@@ -131,13 +121,8 @@ export default function Create() {
                   Only accept users from university
                 </span>
                 <input
-                  onChange={(e) => {
-                    let tmp = { ...contest };
-                    tmp.restrictUsersStudents = e.target.checked;
-                    setContest(tmp);
-                  }}
+                  id="restrictUniversity"
                   type="checkbox"
-                  checked={contest?.restrictUsersStudents}
                   className="checkbox"
                 />
               </label>
@@ -150,12 +135,7 @@ export default function Create() {
       name: "Description",
       form: (
         <textarea
-          onChange={(e) => {
-            let tmp = { ...contest };
-            tmp.description = e.target.value;
-            setContest(tmp);
-          }}
-          value={contest?.description}
+          form="contestForm"
           className="textarea h-1/3 w-full overflow-x-auto border-neutral"
         ></textarea>
       ),
@@ -164,19 +144,15 @@ export default function Create() {
       name: "Social Links",
       form: (
         <>
-          <div className="form-control w-full max-w-xs">
+          <div className="form-control z-10 w-full max-w-xs">
             <label className="label">
               <span className="label-text">Facebook</span>
             </label>
             <input
+              id="Facebook"
               type="text"
               placeholder="Type here"
               className="input input-bordered w-full max-w-xs"
-              onChange={(e) => {
-                let tmp = { ...contest };
-                tmp.links.Facebook = e.target.value;
-                setContest(tmp);
-              }}
             />
           </div>
           <div className="form-control w-full max-w-xs">
@@ -184,29 +160,21 @@ export default function Create() {
               <span className="label-text">Instagram</span>
             </label>
             <input
-              onChange={(e) => {
-                let tmp = { ...contest };
-                tmp.links.Instagram = e.target.value;
-                setContest(tmp);
-              }}
+              id="Instagram"
               type="text"
               placeholder="Type here"
               className="input input-bordered w-full max-w-xs"
             />
           </div>
-          <div className="form-control w-full max-w-xs">
+          <div className="form-control  w-full max-w-xs">
             <label className="label">
               <span className="label-text">LinkedIn</span>
             </label>
             <input
-              onChange={(e) => {
-                let tmp = { ...contest };
-                tmp.links.LinkedIn = e.target.value;
-                setContest(tmp);
-              }}
+              id="LinkedIn"
               type="text"
               placeholder="Type here"
-              className="input input-bordered w-full max-w-xs"
+              className="input input-bordered z-20 w-full max-w-xs"
             />
           </div>
         </>
@@ -224,38 +192,53 @@ export default function Create() {
 
   return (
     <>
-      <dialog
-        id="location_modal"
-        className="modal modal-bottom sm:modal-middle"
+      <form
+        id="contestForm"
+        action={createContest}
+        className="flex h-screen w-screen flex-col items-center justify-center"
       >
-        <div className="modal-box">
-          <input
-            className="input input-bordered mt-2 w-full"
-            type="text"
-            placeholder="Search for a country"
-          />
-        </div>
-        <form method="dialog" className="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog>
-
-      <div className="flex h-screen w-screen flex-col items-center justify-center">
-        <div className="absolute top-20 text-xl font-semibold sm:top-40 sm:text-5xl">
-          {forms[currentStep].name}
-        </div>
-        <div className="flex h-1/2 w-2/3 min-w-max flex-1 flex-col items-center justify-center gap-10 p-2 sm:w-1/3">
-          {forms[currentStep].form}
-        </div>
+        {forms.map((form) => {
+          return (
+            <>
+              <div
+                key={form.name + "a"}
+                className={
+                  "absolute top-20 text-xl font-semibold sm:top-40 sm:text-5xl " +
+                  (forms.indexOf(form) === currentStep ? "block" : "hidden")
+                }
+              >
+                {form.name}
+              </div>
+              <div
+                key={form.name + "b"}
+                className={
+                  "flex h-1/2 w-2/3 min-w-max flex-1 flex-col items-center justify-center gap-10 p-2 sm:w-1/3 " +
+                  (forms.indexOf(form) === currentStep ? "block" : "hidden")
+                }
+              >
+                {form.form}
+              </div>
+            </>
+          );
+        })}
         <div className="absolute bottom-8 flex flex-col items-center gap-3 sm:bottom-20">
-          <div
-            onClick={() => {
-              setCurrentStep(currentStep + 1);
-            }}
-            className="btn btn-neutral max-w-max shadow-lg"
-          >
-            Next
-          </div>
+          {currentStep < 4 ? (
+            <div
+              onClick={() => {
+                setCurrentStep(currentStep + 1);
+              }}
+              className="btn btn-neutral max-w-max shadow-lg"
+            >
+              Next
+            </div>
+          ) : (
+            <div className="relative flex items-center justify-center">
+              <div className="absolute z-0 h-20 w-20 animate-pulse bg-neutral object-cover blur-xl transition-all" />
+              <button className="btn relative z-40 max-w-max border-neutral shadow-xl">
+                Post
+              </button>
+            </div>
+          )}
           <ul className="steps">
             {steps.map((step) => {
               return (
@@ -273,11 +256,7 @@ export default function Create() {
             })}
           </ul>
         </div>
-
-        {/* <div className="w-screen bg-neutral py-[1px] text-center text-sm text-white dark:text-black sm:hidden">
-          {steps[currentStep]}
-        </div> */}
-      </div>
+      </form>
     </>
   );
 }

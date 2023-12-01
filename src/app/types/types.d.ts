@@ -1,11 +1,11 @@
 import { DateType } from "react-tailwindcss-datepicker";
 
 export interface Contest {
-  name?: string;
-  author?: number;
+  name: string;
+  author: string;
   hostedOnPlatoform?: boolean;
-  restrictUsersOnRegion?: string | undefined;
-  restrictUsersOnGroup?: string | undefined;
+  restrictUsersOnRegion?: string;
+  restrictUsersOnGroup?: string;
   restrictUsersSchool?: boolean;
   restrictUsersStudents?: boolean;
   restrictUsersMinAge?: number;

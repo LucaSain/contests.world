@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <div className="navbar  fixed z-[999] w-full rounded-none border-neutral bg-base-100 sm:absolute ">
+    <div className="navbar  fixed z-[999] w-full rounded-none border-neutral bg-base-100  bg-opacity-80 backdrop-blur-xl  sm:absolute sm:backdrop-blur-0 ">
       <div className="navbar-start">
         <Link
           href="/"
