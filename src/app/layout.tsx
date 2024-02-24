@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <NextAuthProvider>
-          <div className="-pt-20 h-max min-h-screen w-screen ">
+          <div className="-pt-20 h-max min-h-screen w-screen">
             <Navbar />
             {children}
           </div>

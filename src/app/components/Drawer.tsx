@@ -1,19 +1,8 @@
 "use client";
 import { useState } from "react";
-import { DateType, DateValueType } from "react-tailwindcss-datepicker";
 import Explore from "./Explore";
 
 export default function Drawer() {
-  const [value, setValue] = useState<DateValueType>({
-    startDate: new Date(),
-    endDate: new Date(),
-  });
-
-  const handleValueChange = (newValue: DateValueType) => {
-    console.log("newValue:", newValue);
-    setValue(newValue);
-  };
-
   const orgs = [
     { id: "1", text: "org" },
     { id: "2", text: "org" },
@@ -27,7 +16,7 @@ export default function Drawer() {
   ];
   return (
     <>
-      <div className="drawer lg:drawer-open">
+      <div className="drawer z-[90] lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col items-center justify-center ">
           <label

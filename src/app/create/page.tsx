@@ -1,11 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Contest } from "../types/types";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { createContest } from "../actions";
-import { experimental_useFormStatus as useFormStatus } from "react-dom";
+
 export default function Create() {
   const [currentStep, setCurrentStep] = useState<number>(0);
+  const [selectedImage, setSelectedImage] = useState<string>("");
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        setSelectedImage(e.target?.result as string);
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
 
   const forms = [
     {
@@ -15,14 +28,22 @@ export default function Create() {
           <label htmlFor="logo">
             <div className="avatar">
               <div className="h-20 w-20 rounded-full border-2 transition-all hover:translate-y-[-1px] hover:shadow-lg sm:h-32 sm:w-32">
-                <img src="/vercel.svg" />
+                <img src={selectedImage || "/vercel.svg"} />
               </div>
             </div>
           </label>
-          <input id="logo" type="file" hidden={true} />
+          <input
+            onChange={handleImageChange}
+            name="logo"
+            id="logo"
+            type="file"
+            hidden={true}
+            required
+          />
 
           <input
-            type="text"
+            required
+            name={"name"}
             id="name"
             className="input w-full rounded-none border-0 border-b-2 border-neutral text-lg focus:outline-none"
           />
@@ -39,6 +60,7 @@ export default function Create() {
           >
             <div className="modal-box">
               <input
+                // name="locationSearch"
                 className="input input-bordered mt-2 w-full"
                 type="text"
                 placeholder="Search for a country"
@@ -72,16 +94,18 @@ export default function Create() {
             <div className="text-xl font-semibold sm:text-4xl">Start date</div>
 
             <input
+              required
+              name="startDate"
               type="date"
-              id="startDate"
               className="input input-bordered input-sm w-1/2 border-2 border-neutral shadow-md sm:w-1/3"
             />
           </div>
           <div className="flex w-full flex-row items-center justify-between ">
             <div className="text-xl font-semibold sm:text-4xl">End date</div>
             <input
+              required
               type="date"
-              id="endDate"
+              name="endDate"
               className="input input-bordered input-sm w-1/2 border-2 border-neutral shadow-md sm:w-1/3"
             />
           </div>
@@ -97,8 +121,9 @@ export default function Create() {
               <span className="label-text">Upload a pdf</span>
             </label>
             <input
+              required
               type="file"
-              id="rulesLink"
+              name="regulations"
               className="file-input file-input-bordered w-full max-w-xs shadow-lg"
             />
           </div>{" "}
@@ -109,7 +134,7 @@ export default function Create() {
                   Only accept users form highschool
                 </span>
                 <input
-                  id="restrictHighSchool"
+                  name="restrictHighSchool"
                   type="checkbox"
                   className="checkbox"
                 />
@@ -121,7 +146,7 @@ export default function Create() {
                   Only accept users from university
                 </span>
                 <input
-                  id="restrictUniversity"
+                  name="restrictUniversity"
                   type="checkbox"
                   className="checkbox"
                 />
@@ -135,6 +160,8 @@ export default function Create() {
       name: "Description",
       form: (
         <textarea
+          required
+          name="description"
           form="contestForm"
           className="textarea h-1/3 w-full overflow-x-auto border-neutral"
         ></textarea>
@@ -149,7 +176,7 @@ export default function Create() {
               <span className="label-text">Facebook</span>
             </label>
             <input
-              id="Facebook"
+              name="facebook"
               type="text"
               placeholder="Type here"
               className="input input-bordered w-full max-w-xs"
@@ -160,7 +187,7 @@ export default function Create() {
               <span className="label-text">Instagram</span>
             </label>
             <input
-              id="Instagram"
+              name="instagram"
               type="text"
               placeholder="Type here"
               className="input input-bordered w-full max-w-xs"
@@ -171,7 +198,7 @@ export default function Create() {
               <span className="label-text">LinkedIn</span>
             </label>
             <input
-              id="LinkedIn"
+              name="linkedIn"
               type="text"
               placeholder="Type here"
               className="input input-bordered z-20 w-full max-w-xs"
@@ -198,28 +225,26 @@ export default function Create() {
         className="flex h-screen w-screen flex-col items-center justify-center"
       >
         {forms.map((form) => {
-          return (
-            <>
-              <div
-                key={form.name + "a"}
-                className={
-                  "absolute top-20 text-xl font-semibold sm:top-40 sm:text-5xl " +
-                  (forms.indexOf(form) === currentStep ? "block" : "hidden")
-                }
-              >
-                {form.name}
-              </div>
-              <div
-                key={form.name + "b"}
-                className={
-                  "flex h-1/2 w-2/3 min-w-max flex-1 flex-col items-center justify-center gap-10 p-2 sm:w-1/3 " +
-                  (forms.indexOf(form) === currentStep ? "block" : "hidden")
-                }
-              >
-                {form.form}
-              </div>
-            </>
-          );
+          return [
+            <div
+              key={form.name + "a"}
+              className={
+                "absolute top-20 text-xl font-semibold sm:top-40 sm:text-5xl " +
+                (forms.indexOf(form) === currentStep ? "block" : "hidden")
+              }
+            >
+              {form.name}
+            </div>,
+            <div
+              key={form.name + "b"}
+              className={
+                "flex h-1/2 w-2/3 min-w-max flex-1 flex-col items-center justify-center gap-10 p-2 sm:w-1/3 " +
+                (forms.indexOf(form) === currentStep ? "block" : "hidden")
+              }
+            >
+              {form.form}
+            </div>,
+          ];
         })}
         <div className="absolute bottom-8 flex flex-col items-center gap-3 sm:bottom-20">
           {currentStep < 4 ? (
@@ -234,7 +259,10 @@ export default function Create() {
           ) : (
             <div className="relative flex items-center justify-center">
               <div className="absolute z-0 h-20 w-20 animate-pulse bg-neutral object-cover blur-xl transition-all" />
-              <button className="btn relative z-40 max-w-max border-neutral shadow-xl">
+              <button
+                type="submit"
+                className="btn relative z-40 max-w-max border-neutral shadow-xl"
+              >
                 Post
               </button>
             </div>

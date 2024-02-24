@@ -61,24 +61,24 @@ model Contest {
   id                    Int       @id @default(autoincrement())
   name                  String?
   author                String
-  hostedOnPlatoform     Boolean?
-  restrictUsersOnRegion String?
-  restrictUsersOnGroup  String?
+  // hostedOnPlatoform     Boolean?
+  // restrictUsersOnRegion String?
+  // restrictUsersOnGroup  String?
   restrictUsersSchool   Boolean?
   restrictUsersStudents Boolean?
-  restrictUsersMinAge   Int?
-  restrictUsersMaxAge   Int?
-  restrictUsersLimit    Int?
-  hasAward              Boolean? //
+  // restrictUsersMinAge   Int?
+  // restrictUsersMaxAge   Int?
+  // restrictUsersLimit    Int?
+  hasAward              Boolean?
   startDate             DateTime?
   endDate               DateTime?
   description           String?
   location              String?
-  bannerURL             String?
+  logoURL               String?
   regulationsURL        String?
-  regulationsPDF        Boolean?
+  // regulationsPDF        Boolean?
   Instagram             String?
   Facebook              String?
   LinkedIn              String?
-  GitHub                String?
+  // GitHub                String?
 }

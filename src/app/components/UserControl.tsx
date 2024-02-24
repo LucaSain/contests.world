@@ -34,7 +34,7 @@ export default async function UserControl() {
           </ul>
         </div>
       ) : (
-        <a href="/api/auth/signin" className="btn btn-neutral">
+        <a href="/api/auth/signin" className="btn btn-neutral btn-sm sm:btn-md">
           Sign in
         </a>
       )}

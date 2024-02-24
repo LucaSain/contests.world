@@ -1,5 +1,5 @@
 import Drawer from "../components/Drawer";
-
-export default function Explore() {
+import prisma from "../lib/db";
+export default async function Explore() {
   return <Drawer />;
 }

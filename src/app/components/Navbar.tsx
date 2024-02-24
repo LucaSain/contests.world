@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <div className="navbar  fixed z-[999] w-full rounded-none border-neutral bg-base-100  bg-opacity-80 backdrop-blur-xl  sm:absolute sm:backdrop-blur-0 ">
+    <div className="navbar fixed z-[999] w-full rounded-none border-neutral bg-base-100  bg-opacity-80 backdrop-blur-xl  sm:absolute sm:backdrop-blur-0 ">
       <div className="navbar-start">
         <Link
           href="/"
@@ -14,12 +14,12 @@ export default function Navbar() {
         </Link>
       </div>
       <div className="navbar-center">
-        <Link
+        <a
           href="/explore"
           className="btn btn-sm border-2 border-neutral bg-transparent shadow-md sm:btn-md"
         >
           explore
-        </Link>
+        </a>
       </div>
       <div className="navbar-end">
         <UserControl />
